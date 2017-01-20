@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Json2Mongoose</title>
+
+    <link rel="stylesheet" href="./css/materialize.min.css">
+    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+    <script src="./js/materialize.min.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+</head>
+
+<body>
+
+<nav>
+    <div class="nav-wrapper  grey darken-4">
+        <a href="#" class="brand-logo">JSON2Mongoose</a>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col s6 ">
+            <div class="card-panel hoverable">
+                <div class="input-field">
+                       <textarea id="json"
+                                 class="materialize-textarea"
+                                 style="min-height:300px;max-height: 300px;overflow-y: auto">{"hello": "world"}</textarea>
+                    <label for="json">JSON</label>
+                </div>
+
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button onclick="generate()" class="btn btn-primary btn-xs">Generate Schema</button>
+                    <button type="button" class="btn btn-default btn-xs" ng-click="init()">Reset</button>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col s6">
+            <div class="card-panel hoverable">
+                <div class="input-field">
+                    <pre id="result" style="max-height: 300px;min-height: 300px;overflow-y: auto">
+
+                    </pre>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="./js/moment.min.js"></script>
+<script>
+    function isArray(param) {
+        return Object.prototype.toString.call(param) === '[object Array]';
+    }
+
+    function getTypeString(value) {
+
+        if (isArray(value)) return "{type : *}".replace("*", 'array');
+        return "{ type : * }".replace("*", typeof value);
+    }
+
+    function generate() {
+        try {
+            var data = JSON.parse($('#json').val(), (key, value) => {
+                if (toString.call(value) === '[object Object]') {
+                    if (key != null && key != '') return "Schema.Types.Mixed";
+                    return value;
+                }
+
+                if(typeof value == "string")
+                    if(moment(value).isValid()) return "{ type : date }"
+
+                return getTypeString(value);
+            });
+
+            $('#result').html(JSON.stringify(data, null, "\t").replace(/"/g, ""));
+        } catch (err) {
+            alert('error! check your JSON data format');
+        }
+
+    }
+
+</script>
+</body>
+</html>
