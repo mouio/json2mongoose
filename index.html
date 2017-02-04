@@ -73,22 +73,26 @@
         return Object.prototype.toString.call(param) === '[object Array]';
     }
 
-    function getTypeString(value) {
-
-        if (isArray(value)) return "{type : *}".replace("*", 'array');
-        return "{ type : * }".replace("*", typeof value);
+    String.prototype.firstUpperCase=function(){
+        return this.replace(/^\S/,function(s){return s.toUpperCase();});
     }
+
+    function getTypeString(value) {
+        if (isArray(value)) return "{type : *}".replace("*", 'Array');
+        return "{ type : * }".replace("*",( typeof value).firstUpperCase());
+    }
+
 
     function generate() {
         try {
             var data = JSON.parse($('#json').val(), (key, value) => {
                 if (toString.call(value) === '[object Object]') {
-                    if (key != null && key != '') return "Schema.Types.Mixed";
+                    if (key != null && key != '') return "{ type : Object }";
                     return value;
                 }
 
                 if(typeof value == "string")
-                    if(moment(value).isValid()) return "{ type : date }"
+                    if(moment(value).isValid()) return "{ type : Date }"
 
                 return getTypeString(value);
             });
