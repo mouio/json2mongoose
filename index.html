@@ -12,14 +12,12 @@
 
     <link rel="stylesheet" href="./css/materialize.min.css">
     <script src="./js/jquery.min.js"></script>
-
     <script src="./js/materialize.min.js"></script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 
 </head>
 
@@ -64,23 +62,21 @@
     </div>
 </div>
 
-</div>
-
-
-<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
 <script src="./js/moment.min.js"></script>
 <script>
     function isArray(param) {
         return Object.prototype.toString.call(param) === '[object Array]';
     }
 
-    String.prototype.firstUpperCase=function(){
-        return this.replace(/^\S/,function(s){return s.toUpperCase();});
+    String.prototype.firstUpperCase = function () {
+        return this.replace(/^\S/, function (s) {
+            return s.toUpperCase();
+        });
     }
 
     function getTypeString(value) {
         if (isArray(value)) return "{type : *}".replace("*", 'Array');
-        return "{ type : * }".replace("*",( typeof value).firstUpperCase());
+        return "{ type : * }".replace("*", ( typeof value).firstUpperCase());
     }
 
 
@@ -92,8 +88,8 @@
                     return value;
                 }
 
-                if(typeof value == "string")
-                    if(moment(value).isValid()) return "{ type : Date }"
+                if (typeof value == "string")
+                    if (moment(value).isValid()) return "{ type : Date }"
 
                 return getTypeString(value);
             });
